@@ -32,7 +32,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
       }
       steps {
-        sh 'aws s3 sync build/ s3://your-s3-bucket-name --delete'
+        sh 'aws s3 sync build/ s3://jenkins-example-q8w7e5r2 --delete'
       }
     }
   }
