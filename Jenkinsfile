@@ -16,7 +16,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'npm test -- --watchAll=false --testPathPattern="C:/Users/barto/.jenkins/workspace/jenkins-example/src/tests/*.test.js"'
+        bat 'npm test -- --watchAll=false'
       }
     }
 
