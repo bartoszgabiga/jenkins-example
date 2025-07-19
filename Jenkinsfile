@@ -28,7 +28,7 @@ pipeline {
 
     stage('Deploy to S3') {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'aws-jenkins-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+        withCredentials([usernamePassword(credentialsId: 'kredki', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           sh '''
                 aws s3 sync build/ s3://jenkins-example-q8w7e5r2 --delete
             '''
