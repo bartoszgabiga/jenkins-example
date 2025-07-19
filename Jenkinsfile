@@ -10,27 +10,17 @@ pipeline {
 
     stages {
 
-        stage('Install dependencies') {
+        stage('Manual approval') {
             steps {
-                sh 'npm install'
+                timeout(time: 10, unit: 'MINUTES') {
+                    input message: "Switch traffic?", ok: "Yes, switch"
+                }
             }
         }
 
-        stage('Test') {
+        stage('Switch traffic') {
             steps {
-                bat 'npm test -- --watchAll=false'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'npm run build'
-            }
-        }
-
-        stage('Deploy to S3') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'kredki', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                script {
                     script {
                         def currentRedirect = sh(
                                 script: "aws s3 cp s3://${ALIAS_BUCKET}/index.html - || echo ''",
@@ -43,28 +33,9 @@ pipeline {
                             env.TARGET_BUCKET = BLUE_BUCKET
                         }
 
-                        echo "Target bucket: ${env.TARGET_BUCKET}"
-
-                        sh '''
-                                            aws s3 sync build/ s3://$TARGET_BUCKET --delete
-                                        '''
+                        echo "Will switch traffic to: ${env.TARGET_BUCKET}"
                     }
 
-                }
-            }
-        }
-
-        stage('Manual approval') {
-            steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    input message: "Switch traffic?", ok: "Yes, switch"
-                }
-            }
-        }
-
-        stage('Switch traffic') {
-            steps {
-                script {
                     def redirectHtml = """
                     <html><head>
                     <meta http-equiv="refresh" content="0; url=http://${env.TARGET_BUCKET}.s3-website-${env.AWS_DEFAULT_REGION}.amazonaws.com" />
