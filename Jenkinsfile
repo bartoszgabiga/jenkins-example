@@ -22,17 +22,17 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'npm test'
+        sh 'npm test -- --watchAll=false --testPathPattern=src'
       }
     }
 
     stage('Deploy to S3') {
-      environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-      }
       steps {
-        sh 'aws s3 sync build/ s3://jenkins-example-q8w7e5r2 --delete'
+        withCredentials([usernamePassword(credentialsId: 'aws-jenkins-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+          sh '''
+                aws s3 sync build/ s3://jenkins-example-q8w7e5r2 --delete
+            '''
+        }
       }
     }
   }
