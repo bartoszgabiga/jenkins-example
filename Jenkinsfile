@@ -19,9 +19,11 @@ pipeline {
     }
 
     stage('Test') {
-    when{
-        params.SKIP_TEST == false
-    }
+        when {
+            expression {
+                params.SKIP_TEST == false
+            }
+        }
       steps {
         bat 'npm test -- --watchAll=false'
       }
