@@ -53,6 +53,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Manual approval') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    input message: "Switch traffic?", ok: "Yes, switch"
+                }
+            }
+        }
+
         stage('Switch traffic') {
             steps {
                 script {
