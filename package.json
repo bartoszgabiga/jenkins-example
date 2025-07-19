@@ -15,7 +15,7 @@
   },
   "jest": {
     "testMatch": [
-      "<rootDir>/src/**/*.test.js"
+      "<rootDir>/src/tests/**/*.test.js"
     ]
   },
   "devDependencies": {

@@ -22,7 +22,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'npm test -- --watchAll=false --testPathPattern=src'
+        sh 'npm test -- --watchAll=false'
       }
     }
 
