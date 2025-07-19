@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  parameters
+      {
+       booleanParam(name: "SKIP_TEST", defaultValue: false, description: 'Skip npm test')
+      }
 
   stages {
     stage('Checkout') {
@@ -15,6 +19,9 @@ pipeline {
     }
 
     stage('Test') {
+    when{
+        params.SKIP_TEST == false
+    }
       steps {
         bat 'npm test -- --watchAll=false'
       }
