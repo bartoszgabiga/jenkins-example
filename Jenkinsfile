@@ -14,15 +14,15 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('Test') {
       steps {
-        sh 'npm run build'
+        sh 'npm test -- --watchAll=false --testPathPattern="C:/Users/barto/.jenkins/workspace/jenkins-example/src/tests/*.test.js"'
       }
     }
 
-    stage('Test') {
+    stage('Build') {
       steps {
-        sh 'npm test -- --watchAll=false'
+        sh 'npm run build'
       }
     }
 
