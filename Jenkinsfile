@@ -14,6 +14,12 @@ pipeline {
       }
     }
 
+    stage('List workspace files via separate job') {
+      steps {
+        build job: 'list_files'
+      }
+    }
+
     stage('Build') {
       steps {
         sh 'npm run build'
