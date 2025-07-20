@@ -3,8 +3,6 @@ pipeline {
     parameters
             {
                 booleanParam(name: "SKIP_TEST", defaultValue: false, description: 'Skip npm test')
-            }
-            {
                 booleanParam(name: "DEPLOY", defaultValue: true, description: 'Deploy')
             }
 
